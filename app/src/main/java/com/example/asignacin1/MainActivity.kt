@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -165,6 +164,8 @@ class MainActivity : AppCompatActivity() {
             R.drawable.ic_android_1,R.drawable.ic_call_black_2,R.drawable.ic_insert_emoticon_black_3,R.drawable.ic_smartphone_black_4,R.drawable.ic_my_location_black_5,R.drawable.ic_signal_wifi_4_bar_black_6
         ))
         ArregloColores = ArrayList(listOf("#A78781","#DC5137","#A3DC37","#C4F16D","#52770A","#354517","#FFC205","#1005FF","#4E4C7E","#D727D2","#00EEDC","#8F78CA"))
+
+
 
         var temp:Int?=0
         for(v in numerosPos.indices){
