@@ -33,17 +33,21 @@ class MainActivity : AppCompatActivity() {
     var PantallaDosPresionada: Int = 0
     var Button1ID :Int = 0
     var Button2ID: Int = 0
+    lateinit var buttons: ArrayList<Button>
     lateinit var numerosPos : ArrayList<Int>
     lateinit var ArregloImagenes: ArrayList<Int>
     lateinit var ArregloColores: ArrayList<String>
     lateinit var Hash:  MutableMap<Int,Int>
+    var currentColor = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         var random :Int = 0
-        InicializarArreglo()
 
-        var buttons = ArrayList(listOf(
+        var colors = resources.obtainTypedArray(R.array.colors_memory)
+        val color = colors.getResourceId(0,0)
+        button1.setBackgroundResource(color)
+        buttons = ArrayList(listOf(
             button1,
             button2,
             button3,
@@ -56,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             button10,
             button11,
             button12))
-
+        InicializarArreglo()
         for(button in buttons)
         {
             button.setOnClickListener {
@@ -129,7 +133,8 @@ class MainActivity : AppCompatActivity() {
                 img = applicationContext?.resources?.getDrawable(img_id!!,theme)
                 img?.setBounds(0,0,60,60)
 
-                findViewById<Button>(ButtonID).setCompoundDrawables(img,img,null,null)
+                //findViewById<Button>(ButtonID).setCompoundDrawables(img,img,null,null)
+                findViewById<Button>(ButtonID).setBackgroundResource(img_id!!)
                 if (PantallasPresionadas==1){
                     PantallaUnoPresionada = img_id!!
                     Button1ID = ButtonID
@@ -150,8 +155,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }else{
-            findViewById<Button>(Button1ID).setCompoundDrawables(null,null,null,null)
-            findViewById<Button>(Button2ID).setCompoundDrawables(null,null,null,null)
+            findViewById<Button>(Button1ID).setBackgroundResource(currentColor)
+            findViewById<Button>(Button2ID).setBackgroundResource(currentColor)
+            //findViewById<Button>(Button2ID).setCompoundDrawables(null,null,null,null)
             Button1ID = 0
             Button2ID = 0
             Error = false
@@ -159,6 +165,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun InicializarArreglo(){
+        fetchButtonsRandomColor()
         numerosPos = ArrayList(listOf(R.id.button1,R.id.button2,R.id.button3,R.id.button4,R.id.button5,R.id.button6,R.id.button7,R.id.button8,R.id.button9,R.id.button10,R.id.button11,R.id.button12))
         ArregloImagenes = ArrayList(listOf(R.drawable.ic_android_1,R.drawable.ic_call_black_2,R.drawable.ic_insert_emoticon_black_3,R.drawable.ic_smartphone_black_4,R.drawable.ic_my_location_black_5,R.drawable.ic_signal_wifi_4_bar_black_6,
             R.drawable.ic_android_1,R.drawable.ic_call_black_2,R.drawable.ic_insert_emoticon_black_3,R.drawable.ic_smartphone_black_4,R.drawable.ic_my_location_black_5,R.drawable.ic_signal_wifi_4_bar_black_6
@@ -169,7 +176,8 @@ class MainActivity : AppCompatActivity() {
 
         var temp:Int?=0
         for(v in numerosPos.indices){
-            findViewById<Button>(numerosPos[v]).setCompoundDrawables(null,null,null,null)
+            //findViewById<Button>(numerosPos[v]).setCompoundDrawables(null,null,null,null)
+            findViewById<Button>(numerosPos[v]).setBackgroundResource(currentColor)
             var r = (0 until numerosPos.size -1).random()
             temp = numerosPos[v]
             numerosPos[v]=numerosPos[r]
@@ -185,11 +193,34 @@ class MainActivity : AppCompatActivity() {
         }
         Log.d("Lista HASH",Hash.toString())
         if(JuegoTerminado == 7){
-            for(c in numerosPos.indices){
+            /*for(c in numerosPos.indices){
                findViewById<Button>(numerosPos[c]).setBackgroundColor(Color.parseColor(ArregloColores[c]))
-            }
+            }*/
             JuegoTerminado = 0
         }
 
     }
+
+    //Método que pondrá todos los botones de un mismo color
+    private fun fetchButtonsRandomColor()
+    {
+        //Dado que los colores los definimos en los recursos, en un array, los recuperamos en un TypedArray
+        //(Estructura recomendada por la documentación) para almacenar los valores
+        val colors = resources.obtainTypedArray(R.array.colors_memory)
+        //Obtenemos una posición aleatoria, ya que el color debe ser aleatorio
+        var pos = ((0 until colors.length()).random())
+        //Validamos que el color no esté repetido
+        while(colors.getResourceId(0,0) == currentColor)
+        {
+            pos = ((0 until colors.length()).random())
+        }
+        //actualizamos el nuevo color
+        currentColor = colors.getResourceId(pos, 0)
+        //Le cambiamos el backgorund a los colores
+        for(button in buttons)
+        {
+            button.setBackgroundResource(currentColor)
+        }
+    }
+
 }

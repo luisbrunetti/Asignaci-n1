@@ -3,4 +3,30 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="color1">#A78781</color>
+    <color name="color2">#03DAC5</color>
+    <color name="color3">#A3DC37</color>
+    <color name="color4">#C4F16D</color>
+    <color name="color5">#52770A</color>
+    <color name="color6">#354517</color>
+    <color name="color7">#FFC205</color>
+    <color name="color8">#1005FF</color>
+    <color name="color9">#4E4C7E</color>
+    <color name="color10">#D727D2</color>
+    <color name="color11">#00EEDC</color>
+    <color name="color12">#8F78CA</color>
+    <array name="colors_memory">
+        <item>@color/color1</item>
+        <item>@color/color2</item>
+        <item>@color/color3</item>
+        <item>@color/color4</item>
+        <item>@color/color5</item>
+        <item>@color/color6</item>
+        <item>@color/color7</item>
+        <item>@color/color8</item>
+        <item>@color/color9</item>
+        <item>@color/color10</item>
+        <item>@color/color11</item>
+        <item>@color/color12</item>
+    </array>
 </resources>
