@@ -2,17 +2,14 @@ package com.example.asignacin1
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
-import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     var Error: Boolean = false
@@ -46,9 +43,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         var random :Int = 0
         InicializarArreglo()
+
+        var buttons = ArrayList(listOf(
+            button1,
+            button2,
+            button3,
+            button4,
+            button5,
+            button6,
+            button7,
+            button8,
+            button9,
+            button10,
+            button11,
+            button12))
+
+        for(button in buttons)
+        {
+            button.setOnClickListener {
+                Operaciones(button.id)
+            }
+        }
+
         TextView = findViewById(R.id.textView)
 
-        Button1 = findViewById(R.id.button1)
+        /*Button1 = findViewById(R.id.button1)
         Button2 = findViewById(R.id.button2)
         Button3 = findViewById(R.id.button3)
         Button4 = findViewById(R.id.button4)
@@ -85,7 +104,7 @@ class MainActivity : AppCompatActivity() {
         Button11?.setOnClickListener {
             Operaciones(R.id.button11)}
         Button12?.setOnClickListener {
-            Operaciones(R.id.button12)}
+            Operaciones(R.id.button12)}*/
 
 
     }
@@ -110,6 +129,7 @@ class MainActivity : AppCompatActivity() {
                 var img_id: Int? = Hash[ButtonID]
                 img = applicationContext?.resources?.getDrawable(img_id!!,theme)
                 img?.setBounds(0,0,60,60)
+
                 findViewById<Button>(ButtonID).setCompoundDrawables(img,img,null,null)
                 if (PantallasPresionadas==1){
                     PantallaUnoPresionada = img_id!!
