@@ -30,11 +30,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        var colors = resources.obtainTypedArray(R.array.colors_memory)
-        val color = colors.getResourceId(0, 0)
-        button1.setBackgroundResource(color)
-
         // Se crea un arreglo para poder identificar a todos los botones
         buttons = ArrayList(
             listOf(
@@ -100,7 +95,7 @@ class MainActivity : AppCompatActivity() {
             //findViewById<Button>(ButtonID).setCompoundDrawables(img,img,null,null)
 
 
-            findViewById<Button>(ButtonID).setBackgroundResource(img_id!!) // Se inserta la imagen en el boton que se escogio
+            findViewById<Button>(ButtonID).setBackgroundResource(img_id!!) // Se inserta la imagen en el boton que se escogió
             if (PantallasPresionadas == 1) {  // Si recien seleciona para primera imagen
 
                 findViewById<Button>(ButtonID).isEnabled = false
@@ -123,10 +118,11 @@ class MainActivity : AppCompatActivity() {
                         applicationContext,
                         JuegoTerminado.toString(),
                         Toast.LENGTH_SHORT
-                    ).show()
-                    if (JuegoTerminado == 6) {
-                        TextView?.text =
-                            "El juego ha terminado con " + Intentos.toString() + " intentos" // Muestra mensaje diciendo que el juego termino
+                    ).show() //En este Toast, se muestra las veces que va acertando
+                    if (JuegoTerminado == 6) //Dado que son 12 botones, son 6 parejas de emojis, por ende debe acertar 6 veces para finalizar el juego
+                    {
+                        textView?.text =
+                            "El juego ha terminado con $Intentos intentos" // Muestra mensaje diciendo que el juego termino
                         JuegoTerminado++
                         for(b in buttons){
                             b.isEnabled = true
@@ -152,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
         } else {
 
-            //Eliminando las imagenes mostradas y habilitando los biotones
+            //Eliminando las imagenes mostradas y habilitando los botones
             var b1=findViewById<Button>(Button1ID)
             var b2 = findViewById<Button>(Button2ID)
             b1.setBackgroundResource(currentColor)
@@ -172,6 +168,7 @@ class MainActivity : AppCompatActivity() {
     fun InicializarArreglo() {
         Intentos = 0 // Inicializar los intentos desde 0
 
+        //Le damos a los botones un color distinto y aleatorio, de la paleta de colores que almacenamos en los recursos.
         fetchButtonsRandomColor()
 
         //Arreglo que almacena los ID de los botones
@@ -230,12 +227,9 @@ class MainActivity : AppCompatActivity() {
             Hash?.set(numerosPos[h], ArregloImagenes[h])
         }
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
         // Si la variable Juego Terminado llega 7 se renicia para volver a comenzar el juego
-        if (JuegoTerminado == 7) {
-            JuegoTerminado = 0
-        }
-
+        //if (JuegoTerminado == 7) { JuegoTerminado = 0 }
+        JuegoTerminado = if(JuegoTerminado==7) 0 else JuegoTerminado
     }
 
     //Método que pondrá todos los botones de un mismo color
@@ -246,13 +240,15 @@ class MainActivity : AppCompatActivity() {
         //Obtenemos una posición aleatoria, ya que el color debe ser aleatorio
         var pos = ((0 until colors.length()).random())
         //Validamos que el color no esté repetido
-        while (colors.getResourceId(0, 0) == currentColor) {
+        while (colors.getResourceId(0, 0) == currentColor)
+        {
             pos = ((0 until colors.length()).random())
         }
-        //actualizamos el nuevo color
+        //actualizamos el id del nuevo color
         currentColor = colors.getResourceId(pos, 0)
-        //Le cambiamos el backgorund a los colores
-        for (button in buttons) {
+        //Le cambiamos el backgorund a los botones con el nuevo color
+        for (button in buttons)
+        {
             button.setBackgroundResource(currentColor)
         }
     }
