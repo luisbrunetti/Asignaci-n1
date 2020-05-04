@@ -84,21 +84,11 @@ class MainActivity : AppCompatActivity() {
             //Solo puede presionar a los 2 pantallas presionadas
             PantallasPresionadas += 1
 
-
             var img: Drawable? // Se inicializa una variable de tipo Drawable para pintarla en un boton
             var img_id: Int? =
                 Hash[ButtonID]   // Se obtiene el ID DE LA IMAGEN(DRAWABLE) definida en el arreglo de ArreglodeImagenes
-
-
-            //img = applicationContext?.resources?.getDrawable(img_id!!,theme)
-            //img?.setBounds(0,0,60,60)
-            //findViewById<Button>(ButtonID).setCompoundDrawables(img,img,null,null)
-
-
-            //findViewById<Button>(ButtonID).setBackgroundResource(img_id!!) // Se inserta la imagen en el boton que se escogió
             findViewById<Button>(ButtonID).text = getEmoji(img_id!!) //Se le pone como texto el emoji en el botón que escogió
             if (PantallasPresionadas == 1) {  // Si recien seleciona para primera imagen
-
                 findViewById<Button>(ButtonID).isClickable = false
                 PantallaUnoPresionada = img_id!! // Se guarda el ID de la imagen en una variable
                 Button1ID = ButtonID  // Se guardar el ID del primer boton en una varaible
@@ -152,14 +142,11 @@ class MainActivity : AppCompatActivity() {
             //Eliminando las imagenes mostradas y habilitando los botones
             var b1=findViewById<Button>(Button1ID)
             var b2 = findViewById<Button>(Button2ID)
-            //b1.setBackgroundResource(currentColor)
             b1.text = ""
             b1.isClickable = true
             //b2.setBackgroundResource(currentColor)
             b2.text = ""
             b2.isClickable = true
-
-            //findViewById<Button>(Button2ID).setCompoundDrawables(null,null,null,null)
 
             //Reiniciando varaibles
             Button1ID = 0
@@ -194,24 +181,6 @@ class MainActivity : AppCompatActivity() {
         //Arreglo que almacena Los ID de las imagenes a mostrar
         //Recuperamos los colores que se encuentran un in int-array, en strings.xml
         ArrayEmojis = resources.getIntArray(R.array.array_unicodes)
-        /*ArrayEmojis = ArrayList(
-            listOf(
-                R.drawable.ic_android_1,
-                R.drawable.ic_call_black_2,
-                R.drawable.ic_insert_emoticon_black_3,
-                R.drawable.ic_smartphone_black_4,
-                R.drawable.ic_my_location_black_5,
-                R.drawable.ic_signal_wifi_4_bar_black_6/,
-                R.drawable.ic_android_1,
-                R.drawable.ic_call_black_2,
-                R.drawable.ic_insert_emoticon_black_3,
-                R.drawable.ic_smartphone_black_4,
-                R.drawable.ic_my_location_black_5,
-                R.drawable.ic_signal_wifi_4_bar_black_6
-            )
-        )*/
-
-        //ArregloColores = ArrayList(listOf("#A78781","#DC5137","#A3DC37","#C4F16D","#52770A","#354517","#FFC205","#1005FF","#4E4C7E","#D727D2","#00EEDC","#8F78CA"))
 
 
         ///ORDENAMIENTO ALEATORIO DEL ARREGLO "numeroPos" /////////////////////////////////////////
@@ -237,7 +206,6 @@ class MainActivity : AppCompatActivity() {
         }
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
         // Si la variable Juego Terminado llega 7 se renicia para volver a comenzar el juego
-        //if (JuegoTerminado == 7) { JuegoTerminado = 0 }
         JuegoTerminado = if(JuegoTerminado==7) 0 else JuegoTerminado
     }
 
