@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Asignación1</string>
+    <integer-array name="array_unicodes">
+        <item>0x1F600</item>
+        <item>0x1F923</item>
+        <item>0x1F60D</item>
+        <item>0x1F911</item>
+        <item>0x1F637</item>
+        <item>0x1F974</item>
+
+    </integer-array>
+
 </resources>

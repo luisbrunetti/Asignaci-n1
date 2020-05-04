@@ -1,9 +1,7 @@
 package com.example.asignacin1
 
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -23,13 +21,12 @@ class MainActivity : AppCompatActivity() {
     var currentColor = 0
     lateinit var buttons: ArrayList<Button>
     lateinit var numerosPos: ArrayList<Int>
-    lateinit var ArregloImagenes: ArrayList<Int>
+    lateinit var ArrayEmojis: IntArray
     lateinit var Hash: MutableMap<Int, Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         // Se crea un arreglo para poder identificar a todos los botones
         buttons = ArrayList(
             listOf(
@@ -52,9 +49,12 @@ class MainActivity : AppCompatActivity() {
         InicializarArreglo()
 
         for (button in buttons) {
+            //Se le asigna el listener a cada botón, dado que es el mismo proceso
             button.setOnClickListener {
                 Operaciones(button.id)
             }
+            //Se le está poniendo a cada botón un tamaño del texto, cuya dimensión se encuentra en resources.
+            button.textSize = resources.getDimension(R.dimen.text_size_button)
         }
 
         TextView = findViewById(R.id.textView)
@@ -95,17 +95,18 @@ class MainActivity : AppCompatActivity() {
             //findViewById<Button>(ButtonID).setCompoundDrawables(img,img,null,null)
 
 
-            findViewById<Button>(ButtonID).setBackgroundResource(img_id!!) // Se inserta la imagen en el boton que se escogió
+            //findViewById<Button>(ButtonID).setBackgroundResource(img_id!!) // Se inserta la imagen en el boton que se escogió
+            findViewById<Button>(ButtonID).text = getEmoji(img_id!!) //Se le pone como texto el emoji en el botón que escogió
             if (PantallasPresionadas == 1) {  // Si recien seleciona para primera imagen
 
-                findViewById<Button>(ButtonID).isEnabled = false
+                findViewById<Button>(ButtonID).isClickable = false
                 PantallaUnoPresionada = img_id!! // Se guarda el ID de la imagen en una variable
                 Button1ID = ButtonID  // Se guardar el ID del primer boton en una varaible
 
 
             } else if (PantallasPresionadas == 2) { // Cuando ya haya presionado dos botones
 
-                findViewById<Button>(ButtonID).isEnabled = false
+                findViewById<Button>(ButtonID).isClickable = false
                 PantallaDosPresionada =
                     img_id!!  // Se gaurda el ID de la segunda imagen en una varaible
                 Button2ID = ButtonID // Se gurda el ID del segundo boton en un varaible
@@ -125,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                             "El juego ha terminado con $Intentos intentos" // Muestra mensaje diciendo que el juego termino
                         JuegoTerminado++
                         for(b in buttons){
-                            b.isEnabled = true
+                            b.isClickable = true
                         }
                     } else {
                         TextView?.text = "Correcto"  // Se muestra en patanlla "Corecto"
@@ -151,10 +152,12 @@ class MainActivity : AppCompatActivity() {
             //Eliminando las imagenes mostradas y habilitando los botones
             var b1=findViewById<Button>(Button1ID)
             var b2 = findViewById<Button>(Button2ID)
-            b1.setBackgroundResource(currentColor)
-            b1.isEnabled = true
-            b2.setBackgroundResource(currentColor)
-            b2.isEnabled = true
+            //b1.setBackgroundResource(currentColor)
+            b1.text = ""
+            b1.isClickable = true
+            //b2.setBackgroundResource(currentColor)
+            b2.text = ""
+            b2.isClickable = true
 
             //findViewById<Button>(Button2ID).setCompoundDrawables(null,null,null,null)
 
@@ -189,14 +192,16 @@ class MainActivity : AppCompatActivity() {
             )
         )
         //Arreglo que almacena Los ID de las imagenes a mostrar
-        ArregloImagenes = ArrayList(
+        //Recuperamos los colores que se encuentran un in int-array, en strings.xml
+        ArrayEmojis = resources.getIntArray(R.array.array_unicodes)
+        /*ArrayEmojis = ArrayList(
             listOf(
                 R.drawable.ic_android_1,
                 R.drawable.ic_call_black_2,
                 R.drawable.ic_insert_emoticon_black_3,
                 R.drawable.ic_smartphone_black_4,
                 R.drawable.ic_my_location_black_5,
-                R.drawable.ic_signal_wifi_4_bar_black_6,
+                R.drawable.ic_signal_wifi_4_bar_black_6/,
                 R.drawable.ic_android_1,
                 R.drawable.ic_call_black_2,
                 R.drawable.ic_insert_emoticon_black_3,
@@ -204,7 +209,7 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.ic_my_location_black_5,
                 R.drawable.ic_signal_wifi_4_bar_black_6
             )
-        )
+        )*/
 
         //ArregloColores = ArrayList(listOf("#A78781","#DC5137","#A3DC37","#C4F16D","#52770A","#354517","#FFC205","#1005FF","#4E4C7E","#D727D2","#00EEDC","#8F78CA"))
 
@@ -223,8 +228,12 @@ class MainActivity : AppCompatActivity() {
 
         ///Guardar el Array ordenado aleatoriamente con un respectivo ID de imagen utilizando mutableHash
         Hash = mutableMapOf()
-        for (h in numerosPos.indices) {
-            Hash?.set(numerosPos[h], ArregloImagenes[h])
+        var pos = 0
+        for (h in numerosPos.indices)
+        {
+            pos = if(pos >= ArrayEmojis.size) 0 else pos
+            Hash?.set(numerosPos[h], ArrayEmojis[pos])
+            pos++
         }
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
         // Si la variable Juego Terminado llega 7 se renicia para volver a comenzar el juego
@@ -251,6 +260,12 @@ class MainActivity : AppCompatActivity() {
         {
             button.setBackgroundResource(currentColor)
         }
+    }
+
+    //Función que recibe como parámetro el unicode como entero y lo devuelve como string
+    private fun getEmoji(unicode: Int):String
+    {
+        return String(Character.toChars(unicode))
     }
 
 }
